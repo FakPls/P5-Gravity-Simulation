@@ -107,7 +107,7 @@ function setup() {
   button.position(50,910);
   button.mousePressed(resetPatricles);
 
-  label = createDiv('Mass:');
+  label = createDiv('Mass');
   label.position(200, 930);  
   slider = createSlider(1, 10, 100);
   slider.position(-45, -20);
