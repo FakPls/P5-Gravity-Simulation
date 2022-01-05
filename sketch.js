@@ -4,11 +4,11 @@ new p5();
 
 class particle {
 
-  constructor(x, y, mass) {
+  constructor(x, y, vx, vy, mass) {
       this.pos = createVector(x, y);
       this.mass = mass;
       this.acceleration = createVector(0, 0);
-      this.velocity = createVector(Math.random() - 0.5, Math.random() - 0.5);
+      this.velocity = createVector(vx, vy);
       this.path = [];
 
   }
@@ -54,14 +54,38 @@ class particle {
     par.applyForce(f);
   }
 
+  collide(par) {
+    let dist = p5.Vector.sub(this.pos, par.pos);
+    let distance = dist.mag();
+    if (distance <= 2) {
+      this.acceleration.setMag(0 , 0);
+      this.velocity.setMag(0 , 0);
+    }
+  }
+
 }
 
 let bodies = [];
+let statics = [];
 
 function mouseClicked() {
-  bodies.push(new particle(mouseX, mouseY, 1));
+  statics.push(new particle(mouseX, mouseY, 0, 0, 3));
 }
 
+function keyPressed() {
+  if (keyCode == UP_ARROW) {
+    bodies.push(new particle(mouseX, mouseY, 0, -0.5, 1))
+  }
+  else if (keyCode == RIGHT_ARROW) {
+    bodies.push(new particle(mouseX, mouseY, 0.5, 0, 1))
+  }
+  else if (keyCode == LEFT_ARROW) {
+    bodies.push(new particle(mouseX, mouseY, -0.5, 0, 1))
+  }
+  else if (keyCode == DOWN_ARROW) {
+    bodies.push(new particle(mouseX, mouseY, 0, 0.5, 1))
+  }
+}
 
 
 
@@ -71,14 +95,25 @@ function setup() {
 
 function draw() {
   background(210);
+  
+
+  for (let s of statics) {
+    s.show();
+    s.path.length = 0
+    for (let p of bodies) {
+      s.attract(p);
+      p.collide(s);
+    }
+  }
 
   for (let p of bodies) {
     p.show();
     p.update();
 
     for (let b of bodies) {
-      if(this != b) {
+      if(p != b) {
         b.attract(p);
+        b.collide(p);
       }
 
     }
