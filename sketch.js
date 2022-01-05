@@ -14,7 +14,6 @@ class particle {
   }
 
   show() {
-      
       strokeWeight(2);
       noFill();
       beginShape();
@@ -24,11 +23,11 @@ class particle {
       }
 
       endShape();
+
       stroke(50);
       strokeWeight(2);
       fill(255);
       circle(this.pos.x, this.pos.y, 20);
-
   }
 
   update() {
@@ -69,7 +68,7 @@ let bodies = [];
 let statics = [];
 
 function mouseClicked() {
-  statics.push(new particle(mouseX, mouseY, 0, 0, 3));
+  statics.push(new particle(mouseX, mouseY, 0, 0, 7));
 }
 
 function keyPressed() {
@@ -118,7 +117,6 @@ function draw() {
 
     }
   }
-
 }
 
 
