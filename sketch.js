@@ -66,6 +66,7 @@ class particle {
 }
 
 let slider;
+let slider2;
 let bodies = [];
 let statics = [];
 
@@ -77,16 +78,16 @@ function mouseClicked() {
 
 function keyPressed() {
   if (keyCode == UP_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0, -0.5, slider.value()))
+    bodies.push(new particle(mouseX, mouseY, 0, -slider2.value(), slider.value()))
   }
   else if (keyCode == RIGHT_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0.5, 0, slider.value()))
+    bodies.push(new particle(mouseX, mouseY, slider2.value(), 0, slider.value()))
   }
   else if (keyCode == LEFT_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, -0.5, 0, slider.value()))
+    bodies.push(new particle(mouseX, mouseY, -slider2.value(), 0, slider.value()))
   }
   else if (keyCode == DOWN_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0, 0.5, slider.value()))
+    bodies.push(new particle(mouseX, mouseY, 0, slider2.value(), slider.value()))
   }
 }
 
@@ -95,15 +96,29 @@ function resetPatricles() {
   statics.length = 0;
 }
 
+
 function setup() {
   createCanvas(1920, 900);
+
+ 
+
 
   button = createButton('Reset');
   button.position(50,910);
   button.mousePressed(resetPatricles);
 
+  label = createDiv('Mass:');
+  label.position(200, 930);  
   slider = createSlider(1, 10, 100);
-  slider.position(150, 910);
+  slider.position(-45, -20);
+  slider.parent(label);
+
+  label2 = createDiv('Velocity');
+  label2.position(400, 930);
+  slider2 = createSlider(0, 2, 100);
+  slider2.position(-40, -20);
+  slider2.parent(label2);
+  
   
 
 }
