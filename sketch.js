@@ -10,6 +10,7 @@ class particle {
       this.acceleration = createVector(0, 0);
       this.velocity = createVector(vx, vy);
       this.path = [];
+      
 
   }
 
@@ -64,32 +65,47 @@ class particle {
 
 }
 
+let slider;
 let bodies = [];
 let statics = [];
 
 function mouseClicked() {
-  statics.push(new particle(mouseX, mouseY, 0, 0, 7));
+  if(mouseY < height) {
+  statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
+    }
 }
 
 function keyPressed() {
   if (keyCode == UP_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0, -0.5, 1))
+    bodies.push(new particle(mouseX, mouseY, 0, -0.5, slider.value()))
   }
   else if (keyCode == RIGHT_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0.5, 0, 1))
+    bodies.push(new particle(mouseX, mouseY, 0.5, 0, slider.value()))
   }
   else if (keyCode == LEFT_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, -0.5, 0, 1))
+    bodies.push(new particle(mouseX, mouseY, -0.5, 0, slider.value()))
   }
   else if (keyCode == DOWN_ARROW) {
-    bodies.push(new particle(mouseX, mouseY, 0, 0.5, 1))
+    bodies.push(new particle(mouseX, mouseY, 0, 0.5, slider.value()))
   }
 }
 
-
+function resetPatricles() {
+  bodies.length = 0;
+  statics.length = 0;
+}
 
 function setup() {
-  createCanvas(1500, 900);
+  createCanvas(1920, 900);
+
+  button = createButton('Reset');
+  button.position(50,910);
+  button.mousePressed(resetPatricles);
+
+  slider = createSlider(1, 10, 100);
+  slider.position(150, 910);
+  
+
 }
 
 function draw() {
