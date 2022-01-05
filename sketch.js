@@ -8,17 +8,13 @@ class particle {
       this.pos = createVector(x, y);
       this.mass = mass;
       this.acceleration = createVector(0, 0);
-      this.velocity = createVector(0, 0);
+      this.velocity = createVector(Math.random() - 0.5, Math.random() - 0.5);
       this.path = [];
 
   }
 
   show() {
-      stroke(50);
-      strokeWeight(2);
-      fill(255);
-      circle(this.pos.x, this.pos.y, 20);
-
+      
       strokeWeight(2);
       noFill();
       beginShape();
@@ -28,6 +24,11 @@ class particle {
       }
 
       endShape();
+      stroke(50);
+      strokeWeight(2);
+      fill(255);
+      circle(this.pos.x, this.pos.y, 20);
+
   }
 
   update() {
@@ -53,17 +54,16 @@ class particle {
     par.applyForce(f);
   }
 
+}
 
-  
+let bodies = [];
+
+function mouseClicked() {
+  bodies.push(new particle(mouseX, mouseY, 1));
 }
 
 
 
-m1 = new particle(300, 300, 5);
-m2 = new particle(300, 500, 5);
-//m3 = new particle(200, 500, 1);
-m1.velocity.set(0.2);
-m2.velocity.set(-0.3);
 
 function setup() {
   createCanvas(1500, 900);
@@ -71,24 +71,19 @@ function setup() {
 
 function draw() {
   background(210);
-  m1.show();
-  m1.update();
-  m1.attract(m2);
-  // m1.attract(m3);
 
-  m2.show();
-  m2.update();
-  m2.attract(m1);
-  // m2.attract(m3);
+  for (let p of bodies) {
+    p.show();
+    p.update();
 
-  // m3.show();
-  // m3.update();
-  // m3.attract(m1);
-  // m3.attract(m2);
-  
-  
-  
-  
+    for (let b of bodies) {
+      if(this != b) {
+        b.attract(p);
+      }
+
+    }
+  }
+
 }
 
 
