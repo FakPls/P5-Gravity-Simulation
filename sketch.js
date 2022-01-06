@@ -115,7 +115,7 @@ function setup() {
 
   label2 = createDiv('Velocity');
   label2.position(400, 930);
-  slider2 = createSlider(0, 2, 100);
+  slider2 = createSlider(0, 2, 100, 0.1);
   slider2.position(-40, -20);
   slider2.parent(label2);
   
