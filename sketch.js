@@ -10,6 +10,7 @@ class particle {
       this.acceleration = createVector(0, 0);
       this.velocity = createVector(vx, vy);
       this.path = [];
+      this.r = this.mass*2
       
 
   }
@@ -28,7 +29,7 @@ class particle {
       stroke(50);
       strokeWeight(2);
       fill(255);
-      circle(this.pos.x, this.pos.y, 20);
+      circle(this.pos.x, this.pos.y, this.r);
   }
 
   update() {
@@ -57,7 +58,7 @@ class particle {
   collide(par) {
     let dist = p5.Vector.sub(this.pos, par.pos);
     let distance = dist.mag();
-    if (distance <= 2) {
+    if (distance <= this.r) {
       this.acceleration.setMag(0 , 0);
       this.velocity.setMag(0 , 0);
     }
@@ -96,12 +97,23 @@ function resetPatricles() {
   statics.length = 0;
 }
 
+function clearTrails() {
+  for (let p of bodies) {
+    p.path.length = 0
+  }
+  for (let s of statics) {
+    s.path.length = 0
+  }
+}
+
 
 function setup() {
   createCanvas(1920, 900);
 
  
-
+  button = createButton('Clear Trails');
+  button.position(50,940);
+  button.mousePressed(clearTrails);
 
   button = createButton('Reset');
   button.position(50,910);
@@ -109,13 +121,13 @@ function setup() {
 
   label = createDiv('Mass');
   label.position(200, 930);  
-  slider = createSlider(1, 10, 100);
+  slider = createSlider(1, 15, 100);
   slider.position(-45, -20);
   slider.parent(label);
 
   label2 = createDiv('Velocity');
   label2.position(400, 930);
-  slider2 = createSlider(0, 2, 100, 0.1);
+  slider2 = createSlider(0, 3, 100, 0.1);
   slider2.position(-40, -20);
   slider2.parent(label2);
   
