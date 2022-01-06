@@ -10,7 +10,7 @@ class particle {
       this.acceleration = createVector(0, 0);
       this.velocity = createVector(vx, vy);
       this.path = [];
-      this.r = this.mass*2
+      this.r = this.mass*2;
       
 
   }
