@@ -11,6 +11,7 @@ class particle {
       this.velocity = createVector(vx, vy);
       this.path = [];
       this.r = this.mass*2;
+      this.collided = false;
       
 
   }
@@ -59,8 +60,9 @@ class particle {
     let dist = p5.Vector.sub(this.pos, par.pos);
     let distance = dist.mag();
     if (distance <= this.r) {
-      this.acceleration.setMag(0 , 0);
-      this.velocity.setMag(0 , 0);
+      // this.acceleration.setMag(0 , 0);
+      // this.velocity.setMag(0 , 0);
+      this.collided = true;
     }
   }
 
@@ -76,6 +78,8 @@ function mouseClicked() {
   statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
     }
 }
+
+
 
 function keyPressed() {
   if (keyCode == UP_ARROW) {
@@ -139,12 +143,18 @@ function draw() {
   background(210);
   
 
+
   for (let s of statics) {
     s.show();
     s.path.length = 0
     for (let p of bodies) {
       s.attract(p);
       p.collide(s);
+      if(p.collided && s.collided) {
+        statics.push(new particle(s.pos.x, s.pos.y, 0, 0, s.mass + p.mass));
+        statics.splice(s, 1);
+        bodies.splice(p, 1);
+      }
     }
   }
 
@@ -156,6 +166,11 @@ function draw() {
       if(p != b) {
         b.attract(p);
         b.collide(p);
+        if(p.collided && b.collided) {
+          bodies.push(new particle(p.pos.x, p.pos.y, (p.velocity.x + b.velocity.x), (p.velocity.y + b.velocity.y), (p.mass + b.mass)));
+          bodies.splice(p, 1);
+          bodies.splice(b, 1);
+        }
       }
 
     }
