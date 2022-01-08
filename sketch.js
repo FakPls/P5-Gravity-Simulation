@@ -11,9 +11,6 @@ class particle {
       this.velocity = createVector(vx, vy);
       this.path = [];
       this.r = this.mass*2;
-      
-      
-
   }
 
   show() {
@@ -70,13 +67,21 @@ class particle {
 
 let slider;
 let slider2;
+let mouseVel = createVector(0, 0);
 let bodies = [];
 let statics = [];
+let rightPressed = false;
 
-function mouseClicked() {
+
+function mouseDragged() {
+  mouseVel.x = mouseX - pmouseX;
+  mouseVel.y = mouseY - pmouseY;
+}
+
+function mouseReleased() {
   if(mouseY < height) {
-  statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
-    }
+    bodies.push(new particle(mouseX, mouseY, mouseVel.x / 5, mouseVel.y / 5 , slider.value()));
+  }
 }
 
 
@@ -93,6 +98,9 @@ function keyPressed() {
   }
   else if (keyCode == DOWN_ARROW) {
     bodies.push(new particle(mouseX, mouseY, 0, slider2.value(), slider.value()))
+  } 
+  else if (keyCode == 32) {
+    statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
   }
 }
 
@@ -142,6 +150,9 @@ function setup() {
 function draw() {
   background(210);
   
+  if(rightPressed) {
+    rightPressed = false;
+  }
 
   for (let s of statics) {
     s.show();
