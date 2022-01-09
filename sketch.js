@@ -149,10 +149,6 @@ function setup() {
 
 function draw() {
   background(210);
-  
-  if(rightPressed) {
-    rightPressed = false;
-  }
 
   for (let s of statics) {
     s.show();
