@@ -71,6 +71,7 @@ let mouseVel = createVector(0, 0);
 let bodies = [];
 let statics = [];
 let rightPressed = false;
+let info = ''
 
 
 function mouseDragged() {
@@ -100,7 +101,9 @@ function keyPressed() {
     bodies.push(new particle(mouseX, mouseY, 0, slider2.value(), slider.value()))
   } 
   else if (keyCode == 32) {
-    statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
+    if(mouseY < height) {
+      statics.push(new particle(mouseX, mouseY, 0, 0, slider.value()));
+    }
   }
 }
 
@@ -118,10 +121,33 @@ function clearTrails() {
   }
 }
 
+function displayInfo() {
+  info = 'This is a simulation of gravity based on Isaac Newton\'s law of universal gravitation created using Javascript and the P5js library.' + 
+  '\n' + 
+  '\n' + 
+  'Instructions: To create a planet in space, you can either use the space bar or the left mouse button. Using the space bar will create a planet at the location of your mouse' + 
+  '\n' +
+  'that is static and cannot move. Using the left mouse button will create a planet at the locaiton of your mouse, with an initial velocty proprtional to the speed of your mouse. ' +
+  '\n' +
+  'Alternatively, you can use the arrow keys on your keyboard to create a planet at the location of your mouse with an initial velocity in the direction of the arrow pressed, and' +
+  '\n' + 
+  'a magnitude set by the "Velocity" slider. The mass of each planet you place can also be adjusted with the "Mass" slider. Finally, you can use the "Reset" button to reset the ' + 
+  '\n' + 
+  'simulation, and the "Clear Trails" button to clear the paths of every planet in the simulation. Enjoy! :)'
+}
+
+function resetInfo() {
+  info = '';
+}
+
 
 function setup() {
-  createCanvas(1920, 900);
-
+  createCanvas(windowWidth, windowHeight-80);
+  
+  button = createButton('Info');
+  button.position(1850, 910);
+  button.mousePressed(displayInfo);
+  button.mouseReleased(resetInfo);
  
   button = createButton('Clear Trails');
   button.position(50,940);
@@ -149,6 +175,7 @@ function setup() {
 
 function draw() {
   background(210);
+  text(info, 100, 100)
 
   for (let s of statics) {
     s.show();
