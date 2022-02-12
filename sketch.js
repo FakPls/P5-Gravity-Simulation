@@ -145,26 +145,26 @@ function setup() {
   createCanvas(windowWidth, windowHeight-80);
   
   button = createButton('Info');
-  button.position(1850, 910);
+  button.position(width - 50, height + 10);
   button.mousePressed(displayInfo);
   button.mouseReleased(resetInfo);
  
   button = createButton('Clear Trails');
-  button.position(50,940);
+  button.position(50,height + 40);
   button.mousePressed(clearTrails);
 
   button = createButton('Reset');
-  button.position(50,910);
+  button.position(50,height + 10);
   button.mousePressed(resetPatricles);
 
   label = createDiv('Mass');
-  label.position(200, 930);  
+  label.position(200, height + 30);  
   slider = createSlider(1, 15, 100);
   slider.position(-45, -20);
   slider.parent(label);
 
   label2 = createDiv('Velocity');
-  label2.position(400, 930);
+  label2.position(400, height + 30);
   slider2 = createSlider(0, 3, 100, 0.1);
   slider2.position(-40, -20);
   slider2.parent(label2);
